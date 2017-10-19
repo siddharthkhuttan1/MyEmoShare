@@ -18,6 +18,7 @@ app.use(cp());
 app.use('/login',express.static('subfiles/login'));
 app.use('/signup',express.static('subfiles/signup'));
 app.use('/write',express.static('subfiles/write'));
+app.use('/read',express.static('subfiles/read'));
 app.use('/',express.static('subfiles/landing'));
 app.use(bp.json());
 app.use(bp.urlencoded({ extended:true }));
@@ -71,15 +72,21 @@ app.post('/signup',function(req,res,err){
 })
 
 app.post('/write',function(req,res){
-
-      
-
     var obj={"username":req.user,"story":req.body.writeup,"target":req.body.target};
     database.addStory(JSON.stringify(obj),function(data){
         console.log(data);
     })
 
 })
+
+app.post('/read',function(req,res){
+
+    database.displayStory(req.body.genre,function(data){
+        res.send(data);
+    })
+
+})
+
 
 database.connectDB(function(){
     app.listen(port,function(){

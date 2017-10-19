@@ -41,9 +41,18 @@ function addStory(string, cb){
         cb(data);
     });
 }
+function displayStory(genre, cb){
+
+    obj.collection('Stories.'+genre).find().toArray(function(err,data){
+        if(err)throw err;
+        cb(data);
+    });
+}
+
 module.exports={
     connectDB,
     checkUser,
     registerUser,
-    addStory
+    addStory,
+    displayStory
 };
