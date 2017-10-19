@@ -33,8 +33,17 @@ function registerUser( username , password , cb ){
     });
 }
 
+function addStory(string, cb){
+    var story=JSON.parse(string);
+    obj.collection('Stories.'+story.target).insertOne({"username":
+    story.username,"story": story.story},function(err,data){
+        if(err)throw err;
+        cb(data);
+    });
+}
 module.exports={
     connectDB,
     checkUser,
-    registerUser
+    registerUser,
+    addStory
 };

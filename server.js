@@ -17,6 +17,7 @@ var localStrategy=passportLocal.Strategy;
 app.use(cp());
 app.use('/login',express.static('subfiles/login'));
 app.use('/signup',express.static('subfiles/signup'));
+app.use('/write',express.static('subfiles/write'));
 app.use('/',express.static('subfiles/landing'));
 app.use(bp.json());
 app.use(bp.urlencoded({ extended:true }));
@@ -61,7 +62,7 @@ passport.deserializeUser(function(user, done) {
         done(null, user);
 });
 
-app.post('/login',passport.authenticate('local',{successRedirect:'/success',failureRedirect: '/'}));
+app.post('/login',passport.authenticate('local',{successRedirect:'/write',failureRedirect: '/'}));
 
 app.post('/signup',function(req,res,err){
         database.registerUser(req.body.username,req.body.password,function(data){
@@ -69,8 +70,15 @@ app.post('/signup',function(req,res,err){
         });
 })
 
-app.get('/success',function(req,res){
-    res.send("Successfully Logged In");
+app.post('/write',function(req,res){
+
+      
+
+    var obj={"username":req.user,"story":req.body.writeup,"target":req.body.target};
+    database.addStory(JSON.stringify(obj),function(data){
+        console.log(data);
+    })
+
 })
 
 database.connectDB(function(){

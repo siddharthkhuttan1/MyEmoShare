@@ -12,4 +12,5 @@ router.get('/2',function(req,res){
     res.send(pathname+' 2 path');
 })
 
+
 module.exports=router;
