@@ -63,7 +63,7 @@ passport.deserializeUser(function(user, done) {
         done(null, user);
 });
 
-app.post('/login',passport.authenticate('local',{successRedirect:'/write',failureRedirect: '/'}));
+app.post('/login',passport.authenticate('local',{successRedirect:'/read',failureRedirect: '/'}));
 
 app.post('/signup',function(req,res,err){
         database.registerUser(req.body.username,req.body.password,function(data){
@@ -82,6 +82,19 @@ app.post('/write',function(req,res){
 app.post('/read',function(req,res){
 
     database.displayStory(req.body.genre,function(data){
+        res.send(data);
+    })
+
+})
+app.post('/thank',function(req,res){
+
+    var obj={
+        "id":req.body.id,
+        "user":req.user,
+        "genre":req.body.genre
+
+    };
+    database.thankUser(obj,function(data){
         res.send(data);
     })
 

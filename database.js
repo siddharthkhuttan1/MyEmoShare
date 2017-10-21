@@ -49,10 +49,26 @@ function displayStory(genre, cb){
     });
 }
 
+function thankUser(object, cb){
+
+    obj.collection('Stories.'+object.genre).find({_id:object.id}).toArray(function(err,data){
+        if(err)throw err;
+        console.log(data);
+    })
+
+    // obj.collection('Stories.'+object.genre).updateOne({_id:object.id},{thanks:thanks.push(object.user)})
+
+    // obj.collection('Stories.'+genre).find().toArray(function(err,data){
+    //     if(err)throw err;
+    //     cb(data);
+    // });
+}
+
 module.exports={
     connectDB,
     checkUser,
     registerUser,
     addStory,
-    displayStory
+    displayStory,
+    thankUser
 };
