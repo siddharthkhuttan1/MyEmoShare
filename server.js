@@ -94,9 +94,7 @@ app.post('/thank',function(req,res){
         "genre":req.body.genre
 
     };
-    database.thankUser(obj,function(data){
-        res.send(data);
-    })
+    database.thankUser(obj);
 
 })
 

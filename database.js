@@ -5,6 +5,7 @@
 var mongodb=require('mongodb');
 
 var url='mongodb://anshul:anshul@ds121495.mlab.com:21495/myemoshare';
+var ObjectId = require('mongodb').ObjectID;
 
 var obj='';
 
@@ -49,19 +50,14 @@ function displayStory(genre, cb){
     });
 }
 
-function thankUser(object, cb){
+function thankUser(object) {
 
-    obj.collection('Stories.'+object.genre).find({_id:object.id}).toArray(function(err,data){
-        if(err)throw err;
-        console.log(data);
+    obj.collection('Stories.' + object.genre).find({"_id": ObjectId(object.id)}, {thanks: 1}).toArray(function (err, data) {
+        if (err) throw err;
+        var arr = data[0].thanks;
+        arr.push(object.user);
+        obj.collection('Stories.' + object.genre).update({"_id": ObjectId(object.id)}, {$set: {"thanks": arr}});
     })
-
-    // obj.collection('Stories.'+object.genre).updateOne({_id:object.id},{thanks:thanks.push(object.user)})
-
-    // obj.collection('Stories.'+genre).find().toArray(function(err,data){
-    //     if(err)throw err;
-    //     cb(data);
-    // });
 }
 
 module.exports={
