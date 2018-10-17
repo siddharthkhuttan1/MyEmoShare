@@ -35,7 +35,7 @@ var route={
 
 app.use('/secure',route.secure);
 app.use('/notsecure',route.notsecure);
-
+//passport code
 passport.use(new localStrategy(
     function(username, password, done) {
 
